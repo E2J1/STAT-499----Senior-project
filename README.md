@@ -2,7 +2,13 @@
 
 This project was completed as part of the **Senior Project (STAT 499)** for the Statistics and Data Science program at the **University of Bahrain**. It uses Football Manager 2024 as a controlled simulation environment to predict long-term player success through machine learning.
 
----
+## 📄 Full Report
+
+The complete academic report (138 pages) is included in this repository:
+- **Main Content** (Pages 11-60): Introduction through Conclusion covering objectives, methodology, results, discussion, and conclusions
+- **Appendices** (Pages 65-138): Detailed data descriptions, hyperparameter search spaces, comprehensive visualizations (confusion matrices, ROC curves, PR curves, threshold plots), performance tables, feature importance plots, and cluster analysis figures
+
+All experimental details, statistical tests, and model configurations are thoroughly documented in the report.
 
 ## 👥 Author
 
@@ -194,7 +200,7 @@ This creates 4 combinations × 5 algorithms = **20 total model variants**
 │   ├── final_XGBoost_Without_Age.ipynb      # XGBoost (No Age)
 │   └── final_clusters_Without_Age.ipynb      # Cluster analysis
 │
-├── STAT 499 FINAL REPORT.pdf                 # Full academic report (138 pages)
+├── STAT 499 FINAL REPORT.pdf                 # Full academic report (138 pages: 50 main + 88 appendix)
 ├── LICENSE                                    # MIT License
 └── README.md                                  # This file
 ```
@@ -276,18 +282,6 @@ This confirms age provides genuine predictive value, not just proxy effects.
 
 ---
 
-## 📌 Citation
-
-If you use this work in your research, please cite:
-
-```
-Alsawan, E. J. S. (2025). Predicting Football Player Success Using Machine Learning 
-on Football Manager 2024 Game Simulation. Senior Project, Department of Mathematics, 
-University of Bahrain.
-```
-
----
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -301,6 +295,7 @@ Special thanks to:
 - **Department of Mathematics, University of Bahrain** for supporting this unconventional research topic and encouraging academic creativity
 - **My family and friends** for their constant support, encouragement, and understanding throughout my university journey. Their motivation played a significant role in completing both this project and my degree
 - **Sports Interactive** for creating Football Manager 2024, which made this research possible
+- **Transfermarkt** for real-world valuation data
 
 ---
 
