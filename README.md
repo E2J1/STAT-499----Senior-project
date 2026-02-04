@@ -100,7 +100,7 @@ This creates 4 combinations × 5 algorithms = **20 total model variants**
 ### Data Processing & Analysis
 - **pandas, NumPy**: Data manipulation and numerical operations
 - **Scikit-learn**: Machine learning algorithms and preprocessing
-- **XGBoost, LightGBM**: Gradient boosting models
+- **XGBoost**: Gradient boosting models
 - **imbalanced-learn (SMOTE)**: Class imbalance handling
 - **Optuna**: Hyperparameter optimization (TPE sampler, 100 trials)
 
