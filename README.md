@@ -539,9 +539,6 @@ Attribute groups include:
 │   └── final_clusters_Without_Age.ipynb
 │
 ├── STAT 499 FINAL REPORT.pdf
-├── presentation.pdf
-├── data dictionary.pdf
-├── clusters.pdf
 ├── LICENSE
 └── README.md
 ```
