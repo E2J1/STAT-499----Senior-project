@@ -1,7 +1,7 @@
 # ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
 
 <p align="center">
-  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="75%">
+  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="65%">
 </p>
 
 <p align="center">
@@ -102,7 +102,7 @@ This ensures that the success label reflects consistent long-term performance ra
 Only **3.3%** of players were labeled as successful.
 
 <p align="center">
-  <img src="media/success_distribution.png" alt="Distribution of Success Labels" width="70%">
+  <img src="media/Success Distribution.png" alt="Distribution of Success Labels" width="70%">
 </p>
 
 This creates an extreme class imbalance problem, which makes the prediction task much harder and more realistic.
