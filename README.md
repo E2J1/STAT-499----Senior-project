@@ -1,7 +1,7 @@
 # ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
 
 <p align="center">
-  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="100%">
+  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="75%">
 </p>
 
 <p align="center">
