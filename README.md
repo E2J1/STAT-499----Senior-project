@@ -1,4 +1,4 @@
-# ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
+<img width="1252" height="193" alt="image" src="https://github.com/user-attachments/assets/e69201ca-a6cd-4a0c-a159-b805d54b6c05" /># ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
 
 <p align="center">
   <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="65%">
@@ -458,12 +458,6 @@ Attribute groups include:
 - Simulation output variables
 - Target labels
 
-Optional preview:
-
-<p align="center">
-  <img src="media/dataset_dictionary_preview.png" alt="Dataset Dictionary Preview" width="80%">
-</p>
-
 ---
 
 # 🧰 Technology Stack
@@ -481,11 +475,12 @@ Optional preview:
 - HTML parsing
 
 ## Machine Learning
-- Scikit-learn
+- Logistic Regression 
 - XGBoost
-- imbalanced-learn
-- SMOTE
-- Optuna
+- Decision Tree
+- Random Forest (RF)
+- Support Vector Classifier (SVC)
+
 
 ## Model Interpretation
 - SHAP
