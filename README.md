@@ -1,310 +1,663 @@
 # ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
 
-This project was completed as part of the **Senior Project (STAT 499)** for the Statistics and Data Science program at the **University of Bahrain**. It uses Football Manager 2024 as a controlled simulation environment to predict long-term player success through machine learning.
+<p align="center">
+  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="100%">
+</p>
 
-## 📄 Full Report
+<p align="center">
+  <b>A research-driven machine learning project that uses Football Manager 2024 as a controlled simulation environment to predict long-term football player success.</b>
+</p>
 
-The complete academic report (138 pages) is included in this repository:
-- **Main Content** (Pages 11-60): Introduction through Conclusion covering objectives, methodology, results, discussion, and conclusions
-- **Appendices** (Pages 65-138): Detailed data descriptions, hyperparameter search spaces, comprehensive visualizations (confusion matrices, ROC curves, PR curves, threshold plots), performance tables, feature importance plots, and cluster analysis figures
+---
 
-All experimental details, statistical tests, and model configurations are thoroughly documented in the report.
+## 📌 Project Overview
 
-## 👥 Author
+This project was completed as part of the **Senior Project (STAT 499)** for the **B.Sc. in Statistics and Data Science** program at the **University of Bahrain**.
+
+The project investigates whether early-career football player attributes can be used to predict long-term success after ten simulated seasons in **Football Manager 2024 (FM24)**.
+
+Unlike typical machine learning projects that start from a ready-made CSV file, this project builds a complete research pipeline:
+
+- Automated data extraction from FM24
+- Three independent 10-year simulations
+- Longitudinal player tracking
+- Market-value-based success labeling
+- Class imbalance handling
+- Predictive modeling
+- Interpretability analysis
+- Exploratory cluster analysis
+
+---
+
+## 👤 Author
 
 **Ebrahim Juma Shakak Alsawan**  
 ID: 202009241  
+B.Sc. Statistics and Data Science  
+University of Bahrain  
+
 **Supervisor:** Ms. Aseel Masoud Ebrahim Alhermi  
-**Department of Mathematics, University of Bahrain**  
-**December 2025**
+**Department:** Mathematics  
+**Date:** December 2025  
 
 ---
 
-## 🎯 Objective
+## 🎯 Research Objective
 
-To predict the future success of young football players (aged 15–23) by:
+The main objective of this project is to predict the future success of young football players aged **15–23** using early-career attributes extracted from Football Manager 2024.
 
-1. Simulating their 10-year career development in Football Manager 2024 **three times independently**
-2. Extracting player attributes at Year-0 (start) and Year-10 (end)
-3. Building machine learning models to classify players as **successful** or **unsuccessful**
+The project aims to answer:
 
-**Success is defined through a dual-benchmark approach:**
-- Real-world benchmark: **Top 25%** market value from Transfermarkt (500 most valuable players globally)
-- In-game benchmark: **Top 10%** market value in FM after 10 years
-- A player is labeled successful if they reach the top 10% threshold in **at least 2 out of 3 simulations**
+> Can machine learning extract reliable patterns from early-career football data to predict long-term player success?
 
 ---
 
-## 📊 Dataset Overview
+## 🧠 Why This Project Is Different
 
-| Feature             | Description                                                                 |
-|---------------------|-----------------------------------------------------------------------------|
-| **Source**          | Football Manager 2024 simulation + Transfermarkt 2025 real-world data      |
-| **Players**         | 43,094 (filtered from ~88,000 for ages 15–23, top 18 leagues)              |
-| **Simulation**      | 10 years × 3 independent runs per player                                    |
-| **Attributes**      | Technical, Mental, Physical, Hidden (CA, PA), Demographics, Market Value    |
-| **Target**          | `success_label` (1 = successful in ≥2/3 simulations, 0 = unsuccessful)     |
-| **Class Balance**   | ~3.3% successful (extreme imbalance)                                        |
+Most student machine learning projects follow a simple workflow:
 
-### Included Leagues (Top 18)
-Argentina, Belgium, Brazil, Croatia, Denmark, England (Premier League + Championship), France, Germany (Bundesliga + 2. Bundesliga), Italy, Japan, Mexico, Netherlands, Poland, Portugal, Spain, United States (MLS)
+```text
+Dataset → Preprocessing → Model → Evaluation
+```
 
----
+This project follows a full research-engineering workflow:
 
-## 🔍 Key Findings
+```text
+FM24 Simulation Environment
+→ Automated Data Extraction
+→ Multi-Year Career Simulation
+→ Data Consolidation
+→ Success Labeling
+→ Machine Learning Modeling
+→ Interpretability
+→ Cluster Discovery
+```
 
-### Model Performance Summary
-
-**Best Overall Model: XGBoost (Full Mode, With Age)**
-
-| Threshold Type           | Balanced Accuracy | Precision | Recall | F1-Score | MCC    |
-|--------------------------|-------------------|-----------|--------|----------|--------|
-| **Balanced Accuracy**    | **0.8999**        | 0.1642    | 0.9677 | 0.2807   | 0.3609 |
-| **F1-Optimized**         | 0.7542            | 0.4113    | 0.5346 | **0.4649** | 0.4484 |
-
-**Top 3 Models (Balanced Accuracy Ranking):**
-1. XGBoost (Full – With Age): 0.8999
-2. Random Forest (Full – With Age): 0.8872
-3. Logistic Regression (Full – With Age): 0.8810
-
-### Model Configurations Tested
-
-The study employed a **four-way experimental design**:
-
-**Configurations:**
-- **With-Age vs. No-Age** – Isolates the contribution of age as a predictive feature
-- **Realistic Mode vs. Full Mode** – Distinguishes between scout-visible attributes vs. complete game data (including hidden CA/PA)
-
-This creates 4 combinations × 5 algorithms = **20 total model variants**
-
-### Key Insights
-
-1. **Hidden Attributes Dominate**: When CA (Current Ability) and PA (Potential Ability) are available, they overwhelmingly determine success
-2. **Age Matters**: Including age consistently improved model performance by 4–7 percentage points in balanced accuracy
-3. **Most Important Visible Attributes**:
-   - **Mental**: Anticipation, Decisions, Determination, Composure, Concentration, Bravery
-   - **Physical**: Strength, Balance, Pace, Stamina, Natural Fitness
-   - **Technical**: First Touch, Technique, Passing
-4. **Ensemble Methods Win**: XGBoost and Random Forest significantly outperformed linear models and single decision trees
-5. **Extreme Imbalance Challenge**: Only 3.3% of players achieve elite success, making this an inherently difficult prediction task
+This makes the project not only a predictive modeling task, but also a complete **synthetic longitudinal research framework**.
 
 ---
 
-## 🛠 Technology Stack
+# 🧪 Success Labeling & Experimental Design
 
-### Simulation & Data Extraction
-- **Football Manager 2024**: Player career simulation environment
-- **PyAutoGUI**: Automated data extraction from FM interface
-- **Python**: Core programming language
+## ✅ Success Labeling Framework
 
-### Data Processing & Analysis
-- **pandas, NumPy**: Data manipulation and numerical operations
-- **Scikit-learn**: Machine learning algorithms and preprocessing
-- **XGBoost**: Gradient boosting models
-- **imbalanced-learn (SMOTE)**: Class imbalance handling
-- **Optuna**: Hyperparameter optimization (TPE sampler, 100 trials)
+Success was not defined using a random threshold.
 
-### Model Interpretability
-- **SHAP**: Feature importance and model explanation
-- **Permutation Importance**: Feature contribution analysis
-- **Coefficient Analysis**: Linear model interpretation
+Instead, the project uses a **dual-benchmark approach**:
 
-### Visualization
-- **Matplotlib, Seaborn**: Statistical visualizations
-- **t-SNE, PCA**: Dimensionality reduction for cluster visualization
+1. **Real-world benchmark:** Top 25% market value from Transfermarkt.
+2. **FM benchmark:** Mapped to the top 10% of FM Year-10 market values.
+3. **Multi-simulation validation:** A player is labeled successful only if they reach the top 10% threshold in at least **2 out of 3 simulations**.
+
+<p align="center">
+  <img src="media/majority_vote_framework.png" alt="Majority Vote Success Labeling Framework" width="80%">
+</p>
+
+This ensures that the success label reflects consistent long-term performance rather than a lucky single simulation outcome.
 
 ---
 
-## 📈 Methodology Overview
+## 📊 Success Distribution
 
-### 1. Data Collection & Simulation
-- Extracted Year-0 attributes for 43,094 players aged 15–23 from top 18 leagues
-- Ran **three independent 10-year simulations** for each player
-- Extracted Year-10 data to compute market values and success labels
-- Used majority-vote rule: successful if top 10% in ≥2/3 simulations
+Only **3.3%** of players were labeled as successful.
 
-### 2. Data Preprocessing
-- Removed seasonal statistics and club-dependent attributes (wages, contracts)
-- Handled "Not for Sale" values using Asking Price (AP) as technical solution
-- Excluded CA/PA for Realistic Mode; included for Full Mode
-- Applied stratified train-validation-test split (70%-15%-15%)
+<p align="center">
+  <img src="media/success_distribution.png" alt="Distribution of Success Labels" width="70%">
+</p>
 
-### 3. Class Imbalance Handling
-- Applied **SMOTE** (Synthetic Minority Over-sampling Technique)
-- Tested three oversampling ratios: 0.2, 0.5, 1.0
-- Selected optimal ratio per model via Optuna
+This creates an extreme class imbalance problem, which makes the prediction task much harder and more realistic.
 
-### 4. Model Training & Optimization
-**Algorithms Evaluated:**
-- Logistic Regression (baseline)
+Because of this imbalance, simple accuracy is not enough. The project uses more appropriate metrics such as:
+
+- Balanced Accuracy
+- F1-Score
+- Matthews Correlation Coefficient (MCC)
+- ROC-AUC
+- Precision-Recall analysis
+
+---
+
+## 🔬 Model Configuration Matrix
+
+The study uses a controlled four-way experimental design to isolate the effect of age and hidden attributes.
+
+<p align="center">
+  <img src="media/model_configurations.png" alt="Model Configurations Matrix" width="85%">
+</p>
+
+The four configurations are:
+
+| Configuration | Description |
+|---|---|
+| **No-Age + Realistic Mode** | Uses only visible attributes and excludes age |
+| **No-Age + Full Mode** | Includes hidden attributes CA/PA but excludes age |
+| **With-Age + Realistic Mode** | Uses visible attributes and includes age |
+| **With-Age + Full Mode** | Includes visible attributes, hidden attributes, and age |
+
+This design helps answer two important questions:
+
+1. Does age provide genuine predictive value?
+2. How much predictive power comes from hidden FM attributes such as CA and PA?
+
+---
+
+# ⚙️ Automated Research Pipeline
+
+A major contribution of this project is the automated data extraction and simulation pipeline.
+
+Football Manager does not provide a simple full-database export tool, so automation was required to collect the dataset at scale.
+
+## 🎥 Demo Videos
+
+> GitHub does not embed MP4 videos directly like YouTube, so each demo is linked through a clickable thumbnail.
+
+---
+
+## 1️⃣ PyAutoGUI Automation Demo
+
+Shows how PyAutoGUI was used to automate the FM24 interface and reduce manual data extraction.
+
+<p align="center">
+  <a href="media/1_DEMO_Pyautogui.mp4">
+    <img src="media/demo_pyautogui_thumbnail.png" alt="PyAutoGUI Automation Demo" width="70%">
+  </a>
+</p>
+
+---
+
+## 2️⃣ Shortlist Extraction Demo
+
+Shows how player shortlists were generated and exported from FM24 as part of the automated extraction workflow.
+
+<p align="center">
+  <a href="media/3_shortlist_extraction.mp4">
+    <img src="media/shortlist_extraction_thumbnail.png" alt="Shortlist Extraction Demo" width="70%">
+  </a>
+</p>
+
+---
+
+## 3️⃣ Data Merge for Shortlist Pipeline
+
+Shows the data engineering step used to merge, organize, and prepare extracted shortlist files for analysis.
+
+<p align="center">
+  <a href="media/2_data_merge_for_the_shortlist.mp4">
+    <img src="media/data_merge_thumbnail.png" alt="Data Merge for Shortlist Demo" width="70%">
+  </a>
+</p>
+
+---
+
+# 📊 Dataset Overview
+
+| Component | Description |
+|---|---|
+| **Source** | Football Manager 2024 simulation data + Transfermarkt benchmark |
+| **Initial Player Pool** | Approximately 88,000 players after league filtering |
+| **Final Dataset** | 43,094 players |
+| **Age Range** | 15–23 years old |
+| **Simulation Length** | 10 in-game years |
+| **Simulation Runs** | 3 independent runs |
+| **Attributes** | Technical, mental, physical, hidden, demographic, and market-value features |
+| **Target Variable** | `success_label` |
+| **Positive Class Rate** | Approximately 3.3% successful players |
+
+---
+
+## 🌍 Included Leagues
+
+The dataset was filtered to players from top football leagues, including:
+
+- Argentina
+- Belgium
+- Brazil
+- Croatia
+- Denmark
+- England
+- France
+- Germany
+- Italy
+- Japan
+- Mexico
+- Netherlands
+- Poland
+- Portugal
+- Spain
+- United States
+
+This filtering made the simulation computationally feasible while keeping the player pool competitive and diverse.
+
+---
+
+# 🛠 Methodology
+
+## 1️⃣ Data Collection
+
+Player data was extracted directly from FM24 using an automated PyAutoGUI pipeline.
+
+The process involved:
+
+- Extracting Year-0 player attributes
+- Saving players into shortlists
+- Exporting HTML files
+- Converting shortlists into reusable formats
+- Simulating 10 years forward
+- Extracting Year-10 player data
+- Repeating the process across three independent simulations
+
+---
+
+## 2️⃣ Data Consolidation
+
+The exported HTML files were merged into structured datasets using Python.
+
+The pipeline handled:
+
+- HTML parsing
+- Batch merging
+- Duplicate removal
+- UID-based player matching
+- Year-0 and Year-10 alignment
+- Simulation run consolidation
+
+---
+
+## 3️⃣ Success Label Creation
+
+A player was labeled successful if:
+
+```text
+Player reaches Top 10% Year-10 FM market value
+in at least 2 out of 3 independent simulations
+```
+
+This majority-vote strategy reduces noise caused by randomness in injuries, transfers, and career development.
+
+---
+
+## 4️⃣ Model Training
+
+The following supervised machine learning models were evaluated:
+
+- Logistic Regression
 - Decision Tree
 - Random Forest
-- Support Vector Machine (RBF kernel)
+- Support Vector Classifier
 - XGBoost
 
-**Optimization Strategy:**
-- Optuna with TPE sampler (100 trials per configuration)
-- Primary metric: **Balanced Accuracy**
-- Secondary analysis: F1-optimized threshold
+The project used:
 
-### 5. Evaluation Framework
-**Metrics Used:**
-- Balanced Accuracy (primary)
-- Precision, Recall, F1-Score
-- ROC-AUC, Precision-Recall AUC
-- Matthews Correlation Coefficient (MCC)
-- Cohen's Kappa
-- Geometric Mean (G-Mean)
-
-**Dual-Threshold Evaluation:**
-- Balanced-Accuracy-optimized threshold
-- F1-optimized threshold
-
-### 6. Interpretability Analysis
-- SHAP values (XGBoost)
-- Feature importance (Random Forest, Decision Tree, XGBoost)
-- Coefficient analysis (Logistic Regression)
-- Permutation importance (SVM)
-
-### 7. Exploratory Cluster Analysis
-- K-Means clustering on visible attributes and CA-PA space
-- PCA and t-SNE visualizations
-- Validation that CA/PA space cleanly separates successful players
+- SMOTE for imbalance handling
+- Optuna for hyperparameter optimization
+- Train-validation-test split
+- Threshold optimization
+- Multi-metric evaluation
 
 ---
 
-## 📁 Repository Structure
+## 5️⃣ Interpretability
 
-```
-├── videos/                                    # Demonstration videos
-│   ├── 1_DEMO_Pyautogui.mp4                  # PyAutoGUI automation demo
-│   ├── 2_data_merge_for_the_shortlist.mp4    # Data merging process
-│   ├── 3_shortlist_extraction.mp4            # Shortlist extraction demo
-│   └── 4_year_10_data_extraction.mp4         # Year-10 data extraction
+Model interpretability was analyzed using:
+
+- SHAP values
+- Feature importance
+- Coefficient analysis
+- Permutation importance
+
+This helped identify which early-career attributes contributed most strongly to long-term success.
+
+---
+
+# 🏆 Key Results
+
+## Best Overall Model
+
+**XGBoost — Full Mode, With Age**
+
+| Metric | Score |
+|---|---|
+| Balanced Accuracy | **89.99%** |
+| F1-Score | **0.465** |
+| Precision | **0.164** |
+| Recall | **96.77%** |
+| ROC-AUC | **0.954** |
+| MCC | **0.448** |
+
+This represents the strongest theoretical performance because the model has access to hidden FM attributes such as CA and PA.
+
+---
+
+## Best Realistic Model
+
+**Random Forest — Realistic Mode, With Age**
+
+| Metric | Score |
+|---|---|
+| Balanced Accuracy | **87.31%** |
+| F1-Score | **0.382** |
+| Precision | **0.155** |
+| Recall | **91.71%** |
+| ROC-AUC | **0.923** |
+| MCC | **0.376** |
+
+This result is more relevant to real-world scouting because it uses only observable player attributes.
+
+---
+
+# 🔍 Key Findings
+
+## 1️⃣ Hidden Attributes Dominate in Full Mode
+
+When Current Ability (CA) and Potential Ability (PA) are included, they become the strongest predictors of long-term success.
+
+This is expected because they represent internal FM ratings that directly summarize player quality and potential.
+
+---
+
+## 2️⃣ Observable Attributes Still Carry Predictive Signal
+
+Even without hidden attributes, the Realistic Mode models performed strongly.
+
+Important visible predictors included:
+
+### Mental Attributes
+- Anticipation
+- Decisions
+- Determination
+- Composure
+- Concentration
+- Bravery
+
+### Physical Attributes
+- Strength
+- Balance
+- Pace
+- Stamina
+- Natural Fitness
+
+### Technical Attributes
+- First Touch
+- Technique
+- Passing
+
+---
+
+## 3️⃣ Age Provides Genuine Predictive Value
+
+Age was statistically related to long-term success.
+
+Observed success rates:
+
+| Age Group | Success Rate |
+|---|---|
+| Young players ≤20 | **1.12%** |
+| Peak development group 21–23 | **7.42%** |
+
+With-Age models also improved balanced accuracy by approximately **4–7 percentage points**, confirming that age adds meaningful predictive value.
+
+---
+
+## 4️⃣ Ensemble Models Performed Best
+
+XGBoost and Random Forest consistently outperformed simpler models because they can capture nonlinear interactions between player attributes.
+
+---
+
+## 5️⃣ Player Success Is Predictable but Probabilistic
+
+The project does not claim that machine learning can perfectly predict football careers.
+
+Instead, it shows that FM24 can be used as a controlled environment to identify patterns associated with higher probability of long-term success.
+
+---
+
+# 🧩 Discovery & Latent Structure Analysis
+
+In addition to supervised modeling, the project includes exploratory cluster analysis to investigate whether successful players form natural groups in the data.
+
+---
+
+## CA-PA Cluster Success Visualization
+
+<p align="center">
+  <img src="media/ca_pa_cluster_success.png" alt="CA-PA Clusters Colored by Cluster and Success" width="80%">
+</p>
+
+This visualization shows how players separate in Current Ability and Potential Ability space.
+
+It highlights that success is concentrated in specific regions, especially among players with higher CA and PA values.
+
+---
+
+## Transfer Value Cluster Visualization
+
+<p align="center">
+  <img src="media/transfer_value_clusters.png" alt="Clusters Based on Total Score and Transfer Value" width="80%">
+</p>
+
+This visualization explores the relationship between player quality, market value, and cluster membership.
+
+It supports the idea that the simulation contains meaningful latent structure rather than random player development patterns.
+
+---
+
+# 📘 Data Dictionary
+
+The project includes a detailed data dictionary covering player attributes, hidden attributes, demographic variables, and simulation outputs.
+
+Attribute groups include:
+
+- Technical attributes
+- Mental attributes
+- Physical attributes
+- Goalkeeping attributes
+- Hidden player attributes
+- Hidden personality attributes
+- Market value variables
+- Simulation output variables
+- Target labels
+
+Optional preview:
+
+<p align="center">
+  <img src="media/dataset_dictionary_preview.png" alt="Dataset Dictionary Preview" width="80%">
+</p>
+
+---
+
+# 🧰 Technology Stack
+
+## Simulation & Automation
+- Football Manager 2024
+- PyAutoGUI
+- HTML export workflow
+
+## Data Processing
+- Python
+- pandas
+- NumPy
+- glob
+- HTML parsing
+
+## Machine Learning
+- Scikit-learn
+- XGBoost
+- imbalanced-learn
+- SMOTE
+- Optuna
+
+## Model Interpretation
+- SHAP
+- Permutation Importance
+- Feature Importance
+- Coefficient Analysis
+
+## Visualization
+- Matplotlib
+- Seaborn
+- PCA
+- t-SNE
+
+---
+
+# 📁 Repository Structure
+
+```text
+├── media/
+│   ├── fm_pipeline_diagram.png
+│   ├── majority_vote_framework.png
+│   ├── success_distribution.png
+│   ├── model_configurations.png
+│   ├── demo_pyautogui_thumbnail.png
+│   ├── shortlist_extraction_thumbnail.png
+│   ├── data_merge_thumbnail.png
+│   ├── ca_pa_cluster_success.png
+│   ├── transfer_value_clusters.png
+│   ├── dataset_dictionary_preview.png
+│   ├── 1_DEMO_Pyautogui.mp4
+│   ├── 3_shortlist_extraction.mp4
+│   └── 2_data_merge_for_the_shortlist.mp4
 │
-├── notebooks/                                 # Jupyter notebooks
-│   ├── pyautogui.ipynb                       # Data extraction automation
-│   ├── shortlist script.ipynb                # Shortlist management
-│   ├── year_10_data_extraction_script.ipynb  # Year-10 extraction
-│   ├── Correlation.ipynb                     # Statistical analysis
-│   │
-│   ├── final_LR_With_Age.ipynb              # Logistic Regression (With Age)
-│   ├── final_LR_Without_Age.ipynb           # Logistic Regression (No Age)
-│   ├── final_RF_With_Age.ipynb              # Random Forest (With Age)
-│   ├── final_RF_Without_Age.ipynb           # Random Forest (No Age)
-│   ├── final_DT_With_Age.ipynb              # Decision Tree (With Age)
-│   ├── final_DT_Without_Age.ipynb           # Decision Tree (No Age)
-│   ├── final_SVC_With_Age.ipynb             # SVM (With Age)
-│   ├── final_SVC_Without_Age.ipynb          # SVM (No Age)
-│   ├── final_XGBoost_With_Age.ipynb         # XGBoost (With Age)
-│   ├── final_XGBoost_Without_Age.ipynb      # XGBoost (No Age)
-│   └── final_clusters_Without_Age.ipynb      # Cluster analysis
+├── notebooks/
+│   ├── pyautogui.ipynb
+│   ├── shortlist script.ipynb
+│   ├── year_10_data_extraction_script.ipynb
+│   ├── Correlation.ipynb
+│   ├── final_LR_With_Age.ipynb
+│   ├── final_LR_Without_Age.ipynb
+│   ├── final_RF_With_Age.ipynb
+│   ├── final_RF_Without_Age.ipynb
+│   ├── final_DT_With_Age.ipynb
+│   ├── final_DT_Without_Age.ipynb
+│   ├── final_SVC_With_Age.ipynb
+│   ├── final_SVC_Without_Age.ipynb
+│   ├── final_XGBoost_With_Age.ipynb
+│   ├── final_XGBoost_Without_Age.ipynb
+│   └── final_clusters_Without_Age.ipynb
 │
-├── STAT 499 FINAL REPORT.pdf                 # Full academic report (138 pages: 50 main + 88 appendix)
-├── LICENSE                                    # MIT License
-└── README.md                                  # This file
+├── STAT 499 FINAL REPORT.pdf
+├── presentation.pdf
+├── data dictionary.pdf
+├── clusters.pdf
+├── LICENSE
+└── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
-### Prerequisites
+## Installation
 
 ```bash
-pip install pandas numpy scikit-learn xgboost lightgbm imbalanced-learn
+pip install pandas numpy scikit-learn xgboost imbalanced-learn
 pip install shap optuna matplotlib seaborn pyautogui
 ```
 
-**Note**: You need a legitimate copy of **Football Manager 2024** to replicate the data extraction process.
+## Important Note
 
-### Replicating the Study
+A legitimate copy of **Football Manager 2024** is required to reproduce the full data extraction and simulation process.
 
-1. **Extract Data from Football Manager**
-   - Follow the PyAutoGUI automation scripts in the notebooks
-   - Videos demonstrate the extraction process
-   - Extract Year-0 data for all players in top 18 leagues (ages 15–23)
-
-2. **Run Three 10-Year Simulations**
-   - Simulate 10 in-game years
-   - Reload to Year-0 save and repeat 2 more times
-   - Extract Year-10 data after each simulation
-
-3. **Preprocess Data**
-   - Merge simulation runs using player UID
-   - Apply majority-vote labeling (success in ≥2/3 runs)
-   - Create Realistic (no CA/PA) and Full datasets
-
-4. **Train Models**
-   - Open the relevant notebook for each model configuration
-   - Models use Optuna for hyperparameter optimization
-   - Training includes SMOTE, StandardScaler, and full pipeline
-
-5. **Evaluate & Interpret**
-   - All evaluation metrics computed automatically
-   - SHAP analysis and feature importance included in notebooks
-   - Confusion matrices and curves generated
+Raw FM database files are not shared due to licensing restrictions.
 
 ---
 
-## 📊 Statistical Validation
+# 🔁 Reproducing the Study
 
-### Age Analysis
+## Step 1: Extract Year-0 Player Data
 
-**Point-Biserial Correlation**: r = 0.1213, p < 1.44 × 10⁻¹⁴³  
-**Mann-Whitney U Test**: U = 42,866,537, p < 1.64 × 10⁻¹⁴⁹  
-**Chi-Square Test**: χ² = 1237.84, p < 3.64 × 10⁻²⁷¹
+Use the PyAutoGUI automation scripts to extract player data from FM24.
 
-**Success Rates by Age Group:**
-- Young (≤20): 1.12% success rate
-- Peak (21–23): 7.42% success rate
+## Step 2: Generate Shortlists
 
-This confirms age provides genuine predictive value, not just proxy effects.
+Players are saved into batches and exported as HTML files.
 
----
+## Step 3: Run 10-Year Simulations
 
-## 🔮 Limitations & Future Work
+Simulate ten in-game years from the same Year-0 starting point.
 
-### Limitations
-1. FM simplifies real-world psychological and environmental factors
-2. Market value is a proxy, not a perfect measure of success
-3. Only Year-0 and Year-10 captured (no mid-career tracking)
-4. Dataset limited to top 18 leagues and ages 15–23
-5. Hidden attributes (CA/PA) unavailable to real scouts
+## Step 4: Extract Year-10 Data
 
-### Future Directions
-1. **Time-series modeling**: Extract Year-1, Year-5 to capture development curves
-2. **Deep learning**: LSTM/Transformer models for temporal patterns
-3. **Expand coverage**: Include lower leagues and broader age ranges
-4. **Contextual variables**: Incorporate injuries, coaching quality, playing time
-5. **Multi-dimensional success**: Combine market value with international caps, trophies
-6. **Cross-version validation**: Test on FM23, FM25 for robustness
+Reload the saved shortlists and export updated Year-10 player information.
+
+## Step 5: Repeat Across Three Runs
+
+Repeat the full 10-year simulation process three times to reduce randomness.
+
+## Step 6: Build Success Labels
+
+Apply the majority-vote success labeling rule.
+
+## Step 7: Train and Evaluate Models
+
+Train supervised models under the four experimental configurations.
 
 ---
 
-## 📄 License
+# ⚠️ Limitations
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- FM24 is a simulation and cannot fully represent real-world player development.
+- Market value is a useful proxy but not a perfect measure of football success.
+- Only Year-0 and Year-10 snapshots were collected, with no mid-career tracking.
+- Dataset is limited to players aged 15–23 from selected top leagues.
+- Hidden FM attributes such as CA and PA are not available to real-world scouts.
 
 ---
 
-## 🙏 Acknowledgments
+# 🔮 Future Work
+
+Potential improvements include:
+
+- Extracting Year-1 and Year-5 data for time-series modeling
+- Expanding the dataset to lower leagues and broader age groups
+- Incorporating contextual variables such as injuries, playing time, coaching quality, and transfers
+- Testing deep learning models such as LSTM or Transformer-based approaches
+- Validating the framework across other FM versions
+- Comparing FM-based predictions with real-world career outcomes
+
+---
+
+# 📄 Full Report
+
+The complete academic report is included in this repository:
+
+```text
+STAT 499 FINAL REPORT.pdf
+```
+
+It contains:
+
+- Full methodology
+- Literature review
+- Experimental design
+- Model evaluation
+- Feature importance analysis
+- Statistical validation
+- Cluster analysis
+- Appendices
+
+---
+
+# 🙏 Acknowledgments
 
 Special thanks to:
-- **Ms. Aseel Masoud Ebrahim Alhermi** for continuous supervision, patience, and invaluable guidance throughout this project
-- **Department of Mathematics, University of Bahrain** for supporting this unconventional research topic and encouraging academic creativity
-- **My family and friends** for their constant support, encouragement, and understanding throughout my university journey. Their motivation played a significant role in completing both this project and my degree
-- **Sports Interactive** for creating Football Manager 2024, which made this research possible
-- **Transfermarkt** for real-world valuation data
+
+- **Ms. Aseel Masoud Ebrahim Alhermi** for her supervision, patience, and continuous guidance.
+- **Department of Mathematics, University of Bahrain** for supporting this research project.
+- **My family and friends** for their encouragement throughout my university journey.
+- **Sports Interactive** for developing Football Manager 2024.
+- **Transfermarkt** for providing real-world market value reference data.
 
 ---
 
-## 📧 Contact
+# 📧 Contact
 
-For questions or collaboration:
-- **Author**: Ebrahim Juma Shakak Alsawan
-- **GitHub**: [E2J1](https://github.com/E2J1)
+**Author:** Ebrahim Juma Shakak Alsawan  
+**Linkedin:** https://www.linkedin.com/in/ebrahim-alsawan-a6977a2b9/
 
 ---
 
-**Note**: Raw FM database files cannot be shared due to licensing restrictions, but all code and methodology are provided for full reproducibility by users with legitimate FM24 access.
+<p align="center">
+  <b>Football Manager 2024 as a simulation sandbox for long-term sports analytics research.</b>
+</p>
