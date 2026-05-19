@@ -1,10 +1,6 @@
 # ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
 
 <p align="center">
-  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="45%">
-</p>
-
-<p align="center">
   <b>A research-driven machine learning project that uses Football Manager 2024 as a controlled simulation environment to predict long-term football player success.</b>
 </p>
 
@@ -74,6 +70,16 @@ FM24 Simulation Environment
 ```
 
 This makes the project not only a predictive modeling task, but also a complete **synthetic longitudinal research framework**.
+
+---
+
+# ⚙️ End-to-End Research Pipeline
+
+<p align="center">
+  <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="65%">
+</p>
+
+This pipeline shows how FM24 data was extracted, transformed into reusable shortlists, simulated across three independent 10-year runs, and finally consolidated into a unified machine learning dataset.
 
 ---
 
@@ -149,7 +155,8 @@ Football Manager does not provide a simple full-database export tool, so automat
 
 ## 🎥 Demo Videos
 
-> GitHub does not embed MP4 videos directly like YouTube, so each demo is linked through a clickable thumbnail.
+> GitHub does not always preview MP4 files directly in the README.  
+> If a video does not open or play in the browser, download it from the repository and watch it locally.
 
 ---
 
