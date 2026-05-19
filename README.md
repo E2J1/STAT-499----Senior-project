@@ -1,4 +1,4 @@
-<img width="1252" height="193" alt="image" src="https://github.com/user-attachments/assets/e69201ca-a6cd-4a0c-a159-b805d54b6c05" /># ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
+# ⚽ Predicting Football Player Success Using Machine Learning on Football Manager 2024
 
 <p align="center">
   <img src="media/fm_pipeline_diagram.png" alt="End-to-End Data Extraction Pipeline for FM24" width="65%">
@@ -102,7 +102,7 @@ This ensures that the success label reflects consistent long-term performance ra
 Only **3.3%** of players were labeled as successful.
 
 <p align="center">
-  <img src="media/Success Distribution.png" alt="Distribution of Success Labels" width="70%">
+  <img src="media/success_distribution.png" alt="Distribution of Success Labels" width="70%">
 </p>
 
 This creates an extreme class imbalance problem, which makes the prediction task much harder and more realistic.
@@ -475,12 +475,13 @@ Attribute groups include:
 - HTML parsing
 
 ## Machine Learning
-- Logistic Regression 
-- XGBoost
+- Logistic Regression
 - Decision Tree
-- Random Forest (RF)
-- Support Vector Classifier (SVC)
-
+- Random Forest
+- Support Vector Classifier
+- XGBoost
+- SMOTE
+- Optuna
 
 ## Model Interpretation
 - SHAP
@@ -509,7 +510,6 @@ Attribute groups include:
 │   ├── data_merge_thumbnail.png
 │   ├── ca_pa_cluster_success.png
 │   ├── transfer_value_clusters.png
-│   ├── dataset_dictionary_preview.png
 │   ├── 1_DEMO_Pyautogui.mp4
 │   ├── 3_shortlist_extraction.mp4
 │   └── 2_data_merge_for_the_shortlist.mp4
@@ -649,7 +649,7 @@ Special thanks to:
 # 📧 Contact
 
 **Author:** Ebrahim Juma Shakak Alsawan  
-**Linkedin:** https://www.linkedin.com/in/ebrahim-alsawan-a6977a2b9/
+**LinkedIn:** [Ebrahim Alsawan](https://www.linkedin.com/in/ebrahim-alsawan-a6977a2b9/)
 
 ---
 
