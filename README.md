@@ -4,6 +4,10 @@
   <b>A research-driven machine learning project that uses Football Manager 2024 as a controlled simulation environment to predict long-term football player success.</b>
 </p>
 
+<p align="center">
+  <img src="media/FM24.jpg" alt="Football Manager 2024 Project Banner" width="100%">
+</p>
+
 ---
 
 ## 📌 Project Overview
